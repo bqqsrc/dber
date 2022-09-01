@@ -291,7 +291,21 @@ func (s *SqlController) ExecSqlScripts(script string) error {
 		return errer.CallerErr(funcName, "ioutil.ReadFile(%s) error, err: %s", script, err)
 	}
 	scriptStr := string(data)
-	scriptArr := strings.Split(scriptStr, ";")
+	return s.ExecSqls(scriptStr)
+	// scriptArr := strings.Split(scriptStr, ";")
+	// sqlArgs := SqlAndArgsBatch{}
+	// for _, value := range scriptArr {
+	// 	value = strings.TrimSpace(value)
+	// 	if value != "" {
+	// 		sqlArgs.AddSqlAndArgs(value)
+	// 	}
+	// }
+	// return s.ExecTxs(&sqlArgs)
+}
+
+func (s *SqlController) ExecSqls(script string) error {
+	//funcName := "SqlController.ExecSqls"
+	scriptArr := strings.Split(script, ";")
 	sqlArgs := SqlAndArgsBatch{}
 	for _, value := range scriptArr {
 		value = strings.TrimSpace(value)
